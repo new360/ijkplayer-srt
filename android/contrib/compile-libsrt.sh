@@ -26,7 +26,7 @@ FF_ACT_ARCHS_64="armv7a arm64 x86 x86_64"
 FF_ACT_ARCHS_ALL=$FF_ACT_ARCHS_64
 
 . ./tools/do-detect-env.sh
-
+echo "ANDROID_SDK=$ANDROID_SDK"
 echo_archs() {
     echo "===================="
     echo "[*] check archs"
@@ -92,17 +92,16 @@ do_build_libsrt() {
     
     mkdir -p "build/libsrt-$ARCH"
     cd build/libsrt-$ARCH
-    ${ANDROID_HOME}/cmake/3.10.2.4988404/bin/cmake \
+    cmake \
         -DANDROID_ABI=${FF_ARCH} \
         -DANDROID_NDK=${ANDROID_NDK} \
         -DCMAKE_ANDROID_API=${API_LEVEL} \
         -DANDROID_NATIVE_API_LEVEL=${API_LEVEL} \
-        -DCMAKE_MAKE_PROGRAM=${ANDROID_HOME}/cmake/3.10.2.4988404/bin/ninja \
+        -DCMAKE_MAKE_PROGRAM=${ANDROID_SDK}/cmake/3.10.2.4988404/bin/ninja \
         -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=${FF_PREFIX} \
         -DCMAKE_PREFIX_PATH=${FF_PREFIX} \
-        -DANDROID_STL=c++_static \
         -DANDROID_TOOLCHAIN=clang \
         -DUSE_OPENSSL_PC=OFF \
         -DOPENSSL_CRYPTO_LIBRARY=${FF_PREFIX}/lib/libcrypto.a \
@@ -112,8 +111,9 @@ do_build_libsrt() {
         -DENABLE_CXX11=OFF \
         -DENABLE_CXX_DEPS=OFF \
         -DENABLE_APPS=OFF \
-        -DUSE_STATIC_LIBSTDCXX=OFF \
-        -GNinja ${LIBSRC_SRC_PATH}
+        -DUSE_STATIC_LIBSTDCXX=ON \
+        ANDROID_STL_FORCE_FEATURES=ON\
+        -GNinja ${LIBSRC_SRC_PATH}\
 
     cd -
     cmake --build build/libsrt-${ARCH}

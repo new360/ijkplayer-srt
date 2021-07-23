@@ -74,6 +74,7 @@ void ijkmp_global_init()
 {
     ijksdl_global_init();
     ffp_global_init();
+    ffp_global_set_log_report(1);
 }
 
 void ijkmp_global_uninit()

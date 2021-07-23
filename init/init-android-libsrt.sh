@@ -20,7 +20,7 @@ BASEDIR=$(dirname "$DIR")
 
 IJK_LIBSRT_UPSTREAM=https://github.com/Haivision/srt.git
 IJK_LIBSRT_FORK=https://github.com/Haivision/srt.git
-IJK_LIBSRT_COMMIT=7bf96c716d1ab8e75422b9cb7118fc82f497a5b3
+IJK_LIBSRT_COMMIT=v1.4.2
 IJK_LIBSRT_LOCAL_REPO=$BASEDIR/extra/libsrt
 
 set -e

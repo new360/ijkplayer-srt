@@ -22,7 +22,7 @@ IJK_FFMPEG_FORK=https://github.com/Bilibili/FFmpeg.git
 IJK_FFMPEG_COMMIT=ff4.0--ijk0.8.25--20191031--001
 IJK_FFMPEG_LOCAL_REPO=extra/ffmpeg
 
-IJK_GASP_UPSTREAM=https://github.com/Bilibili/gas-preprocessor.git
+IJK_GASP_UPSTREAM=https://github.com/libav/gas-preprocessor
 
 # gas-preprocessor backup
 # https://github.com/Bilibili/gas-preprocessor.git

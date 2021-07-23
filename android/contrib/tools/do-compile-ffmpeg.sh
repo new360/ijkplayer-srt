@@ -81,7 +81,7 @@ FF_GCC_64_VER=$IJK_GCC_64_VER
 #----- armv7a begin -----
 if [ "$FF_ARCH" = "armv7a" ]; then
     FF_TOOLCHAIN_ARCH=arm
-    FF_ANDROID_PLATFORM=16
+    FF_ANDROID_PLATFORM=21
     FF_BUILD_NAME=ffmpeg-armv7a
     FF_BUILD_NAME_OPENSSL=openssl-armv7a
     FF_BUILD_NAME_LIBSOXR=libsoxr-armv7a
@@ -260,6 +260,7 @@ FF_CFLAGS="-O3 -Wall -pipe \
     -ffast-math \
     -fstrict-aliasing -Werror=strict-aliasing \
     -Wa,--noexecstack \
+    -fno-integrated-as\
     -DANDROID -DNDEBUG"
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS --as=${FF_CROSS_PREFIX}-clang"

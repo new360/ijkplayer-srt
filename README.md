@@ -1,72 +1,14 @@
 # ijkplayer
 
-Video player based on [ffplay](http://ffmpeg.org)
 
-![](https://github.com/befovy/ijkplayer/workflows/Android%20CI/badge.svg?branch=master)
-
-
-### Download
-
-- Android:
- - Gradle
-```
-# required
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-dependencies {
-    # required, enough for most devices.
-    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
-
-    # Other ABIs: optional
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.8'
-    compile 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8'
-    compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8'
-    compile 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'
-
-    # ExoPlayer as IMediaPlayer: optional, experimental
-    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
-}
-```
-- iOS
- - in coming...
-
-### Latest Changes
-- [CHANGELOG.md](CHANGELOG.md)
-
-### Features
-- Common
- - remove rarely used ffmpeg components to reduce binary size [config/module-lite.sh](config/module-lite.sh)
- - workaround for some buggy online video.
-- Android
- - platform: API 9~23
- - cpu: ARMv7a, ARM64v8a, x86 (ARMv5 is not tested on real devices)
- - api: [MediaPlayer-like](android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IMediaPlayer.java)
- - video-output: NativeWindow, OpenGL ES 2.0
- - audio-output: AudioTrack, OpenSL ES
- - hw-decoder: MediaCodec (API 16+, Android 4.1+)
- - alternative-backend: android.media.MediaPlayer, ExoPlayer
-- iOS
- - platform: iOS 7.0~10.2.x
- - cpu: armv7, arm64, i386, x86_64, (armv7s is obselete)
- - api: [MediaPlayer.framework-like](ios/IJKMediaPlayer/IJKMediaPlayer/IJKMediaPlayback.h)
- - video-output: OpenGL ES 2.0
- - audio-output: AudioQueue, AudioUnit
- - hw-decoder: VideoToolbox (iOS 8+)
- - alternative-backend: AVFoundation.Framework.AVPlayer, MediaPlayer.Framework.MPMoviePlayerControlelr (obselete since iOS 8)
-
-### NOT-ON-PLAN
-- obsolete platforms (Android: API-8 and below; iOS: pre-6.0)
-- obsolete cpu: ARMv5, ARMv6, MIPS (I don't even have these types of devices…)
-- native subtitle render
-- avfilter support
 
 ### Before Build
 ```
+下载安装android studio:版本4.0
+在android studio 中下载安装
+cmake:版本3.18.1
+ndk:版本:16.1.4479499
+
 # install homebrew, git, yasm
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install git
@@ -75,39 +17,11 @@ brew install yasm
 # add these lines to your ~/.bash_profile or ~/.profile
 # export ANDROID_SDK=<your sdk path>
 # export ANDROID_NDK=<your ndk path>
+# export ANDROID_CMAKE_BIN=<your cmake bin path> 即cmake命令所在的文件夹
+
 
 # on Cygwin (unmaintained)
 # install git, make, yasm
-```
-
-- If you prefer more codec/format
-```
-cd config
-rm module.sh
-ln -s module-default.sh module.sh
-cd android/contrib
-# cd ios
-sh compile-ffmpeg.sh clean
-```
-
-- If you prefer less codec/format for smaller binary size (include hevc function)
-```
-cd config
-rm module.sh
-ln -s module-lite-hevc.sh module.sh
-cd android/contrib
-# cd ios
-sh compile-ffmpeg.sh clean
-```
-
-- If you prefer less codec/format for smaller binary size (by default)
-```
-cd config
-rm module.sh
-ln -s module-lite.sh module.sh
-cd android/contrib
-# cd ios
-sh compile-ffmpeg.sh clean
 ```
 
 - For Ubuntu/Debian users.
@@ -122,13 +36,11 @@ sudo dpkg-reconfigure dash
 ```
 git clone https://github.com/befovy/ijkplayer.git ijkplayer-android
 cd ijkplayer-android
-
 ./init-android.sh
-
 cd android/contrib
-./compile-ffmpeg.sh clean
+./compile-openssl.sh all
+./compile-libsrt.sh all
 ./compile-ffmpeg.sh all
-
 Open Android peoject in android/ijkplayer using Android Studio
 run/debug ijkplayer-example in Android Studio
 

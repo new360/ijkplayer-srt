@@ -27,6 +27,8 @@ FF_ACT_ARCHS_ALL=$FF_ACT_ARCHS_64
 
 . ./tools/do-detect-env.sh
 echo "ANDROID_SDK=$ANDROID_SDK"
+echo "ANDROID_CMAKE=$ANDROID_CMAKE_BIN"
+
 echo_archs() {
     echo "===================="
     echo "[*] check archs"
@@ -92,12 +94,12 @@ do_build_libsrt() {
     
     mkdir -p "build/libsrt-$ARCH"
     cd build/libsrt-$ARCH
-    cmake \
+    ${ANDROID_CMAKE_BIN}/cmake \
         -DANDROID_ABI=${FF_ARCH} \
         -DANDROID_NDK=${ANDROID_NDK} \
         -DCMAKE_ANDROID_API=${API_LEVEL} \
         -DANDROID_NATIVE_API_LEVEL=${API_LEVEL} \
-        -DCMAKE_MAKE_PROGRAM=${ANDROID_SDK}/cmake/3.10.2.4988404/bin/ninja \
+        -DCMAKE_MAKE_PROGRAM=${ANDROID_CMAKE_BIN}/ninja \
         -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=${FF_PREFIX} \
@@ -116,8 +118,8 @@ do_build_libsrt() {
         -GNinja ${LIBSRC_SRC_PATH}\
 
     cd -
-    cmake --build build/libsrt-${ARCH}
-    cmake --build build/libsrt-${ARCH} --target install
+    ${ANDROID_CMAKE_BIN}/cmake --build build/libsrt-${ARCH}
+    ${ANDROID_CMAKE_BIN}/cmake --build build/libsrt-${ARCH} --target install
     sed -i.bak 's|-lsrt   |-lsrt -lc -lm -ldl -lcrypto -lssl -lstdc++|g' ${FF_PREFIX}/lib/pkgconfig/srt.pc
     sed -i.bak '12d;' ${FF_PREFIX}/lib/pkgconfig/srt.pc
     rm ${FF_PREFIX}/lib/pkgconfig/srt.pc.bak

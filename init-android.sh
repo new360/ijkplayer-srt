@@ -49,6 +49,7 @@ pull_fork "x86_64"
 ./init-config.sh
 ./init/init-libyuv.sh
 ./init/init-android-soundtouch.sh
-
+./init/init-android-openssl.sh
+./init/init-android-libsrt.sh
 cp extra/CMakeLists.txt.yuv ijkmedia/ijkyuv/CMakeLists.txt
 cp extra/CMakeLists.txt.soundtouch ijkmedia/ijksoundtouch/CMakeLists.txt
